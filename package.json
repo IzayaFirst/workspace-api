@@ -1,0 +1,31 @@
+{
+  "name": "workspace-api",
+  "version": "1.0.0",
+  "description": "backend service for workspace application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./main.js",
+    "start": "node ./main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IzayaFirst/workspace-api.git"
+  },
+  "author": "Patchara Leelalumplert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IzayaFirst/workspace-api/issues"
+  },
+  "homepage": "https://github.com/IzayaFirst/workspace-api#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
