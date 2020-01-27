@@ -4,7 +4,9 @@ export const DATABASE_SCHEMA = 'workspace';
 export const DATABASE_USERNAME = 'root';
 export const DATABASE_PASSWORD = '';
 
-export const CANDIDATE_SCHEMA = 'candidates'
+export const CANDIDATE_SCHEMA = 'candidates';
+export const SKILL_SCHEMA = 'skills';
+
 export const GENDER = {
   MALE: 'Male',
   FEMALE: 'Female',
