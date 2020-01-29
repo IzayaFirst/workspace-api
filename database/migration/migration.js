@@ -23,6 +23,7 @@ IntialSchema(sequelize, Sequelize)
 sequelize.sync({ force: true })
 .then(() => {
   console.log(`Migration is done.`)
+  process.exit(0);
 }).catch((err) => {
   console.loog(`error : ${err}`)
 })
