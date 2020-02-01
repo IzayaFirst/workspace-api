@@ -7,6 +7,14 @@ const candidate = (sequalize, SEQUALIZE) => {
       primaryKey: true,
       autoIncrement: true
     },
+    user_name: {
+      type: SEQUALIZE.STRING(200),
+      allowNull: false,
+    },
+    password: {
+      type: SEQUALIZE.TEXT,
+      allowNull: false,
+    },
     candidate_name: {
       type: SEQUALIZE.STRING(200),
       allowNull: false,
@@ -35,12 +43,14 @@ const candidate = (sequalize, SEQUALIZE) => {
     seniority: {
       type: SEQUALIZE.ENUM(SENIORITY.JUNIOR, SENIORITY.MIDDLE,
         SENIORITY.SENIOR, SENIORITY.LEAD, SENIORITY.MANAGER),
-        allowNull: false,
+      allowNull: false,
+
     },
     technology_field: {
       type: SEQUALIZE.ENUM(TECH_FIELD.BUSINESS, TECH_FIELD.DESIGN,
         TECH_FIELD.MARKETING, TECH_FIELD.DEVELOPER),
-        allowNull: false,
+      allowNull: false,
+
     }
   }, { underscored: true })
 }

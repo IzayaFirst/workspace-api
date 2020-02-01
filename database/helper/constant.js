@@ -10,6 +10,10 @@ export const EDUCATION_SCHEMA = 'educations';
 export const WORK_EXPERIENCE_SCHEMA = 'work_experiences';
 export const LANGUAGE_SCHEMA = 'languages';
 export const CANDIDATE_LANGUAGE_SCHEMA = 'candidate_languages';
+export const ARCHIEVEMENT_SCHEMA = 'archievements';
+export const COMPANY_SCHEMA = 'companies';
+export const COMPANY_ACCOUNT_SCHEMA = 'company_accounts';
+export const POSITION_SCHEMA = 'positions';
 
 export const GENDER = {
   MALE: 'Male',
