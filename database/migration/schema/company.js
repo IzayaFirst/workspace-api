@@ -1,7 +1,7 @@
-import { CANDIDATE_SCHEMA } from '../../helper/constant';
+import { COMPANY_SCHEMA } from '../../helper/constant';
 
 const company = (sequalize, SEQUALIZE) => {
-  return sequalize.define(CANDIDATE_SCHEMA, {
+  return sequalize.define(COMPANY_SCHEMA, {
     id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,

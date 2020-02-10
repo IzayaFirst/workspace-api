@@ -14,6 +14,9 @@ export const ARCHIEVEMENT_SCHEMA = 'archievements';
 export const COMPANY_SCHEMA = 'companies';
 export const COMPANY_ACCOUNT_SCHEMA = 'company_accounts';
 export const POSITION_SCHEMA = 'positions';
+export const APPLY_POSITION = 'apply_positions';
+export const APPLY_STATUS = 'apply_statuses';
+export const FEEDBACK = 'feedbacks';
 
 export const GENDER = {
   MALE: 'Male',
@@ -48,4 +51,14 @@ export const LANGUAGE = {
   CHINESE: 'Chinese',
   JAPANESE: 'Japanese',
   OTHER: 'Others', 
+}
+
+export const INTERVIEW_STATUS = {
+  ACCECPT: 'Accept',
+  IN_PROGRESS: 'In progress',
+  HIRE: 'Hired',
+  INTERVIEW: 'Interview',
+  REJECT: 'Reject',
+  DECLINE: 'Decline',
+  PENDING: 'Pending',
 }

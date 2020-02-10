@@ -8,6 +8,9 @@ import Archievement from './archeivement.js';
 import Company from './company.js';
 import CompanyAccount from './company_account.js';
 import Position from './position.js';
+import ApplyPosition from './apply_position.js';
+import ApplyStatus from './apply_status.js';
+import FeedBack from './feedback.js';
 
 const intitialSchema = (sequalize, SEQUALIZE) => {
   const candidate = CandidateSchema(sequalize, SEQUALIZE);
@@ -17,9 +20,12 @@ const intitialSchema = (sequalize, SEQUALIZE) => {
   const language = Language(sequalize, SEQUALIZE);
   const candidateLanguage = CandidateLanguage(sequalize, SEQUALIZE);
   const archievement = Archievement(sequalize, SEQUALIZE);
-  const company = Company(sequalize, SEQUALIZE)
-  const companyAccount = CompanyAccount(sequalize, SEQUALIZE)
-  const position = Position(sequalize, SEQUALIZE)
+  const company = Company(sequalize, SEQUALIZE);
+  const companyAccount = CompanyAccount(sequalize, SEQUALIZE);
+  const position = Position(sequalize, SEQUALIZE);
+  const applyPosition = ApplyPosition(sequalize, SEQUALIZE);
+  const applyStatus = ApplyStatus(sequalize, SEQUALIZE);
+  const feedback = FeedBack(sequalize, SEQUALIZE);
 
   candidate.hasMany(skill)
   skill.belongsTo(candidate, {
@@ -61,6 +67,25 @@ const intitialSchema = (sequalize, SEQUALIZE) => {
     foreignKey: 'company_id'
   })
 
+  candidate.hasMany(applyPosition);
+  applyPosition.belongsTo(candidate, {
+    foreignKey: 'candidate_id'
+  })
+
+  position.hasMany(applyPosition);
+  applyPosition.belongsTo(position, {
+    foreignKey: 'position_id'
+  })
+
+  applyPosition.hasMany(applyStatus);
+  applyStatus.belongsTo(applyPosition, {
+    foreignKey: 'apply_position_id'
+  })
+
+  applyPosition.hasMany(feedback);
+  feedback.belongsTo(applyPosition, {
+    foreignKey: 'apply_position_id'
+  })
 
 };
 
