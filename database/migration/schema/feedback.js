@@ -8,6 +8,7 @@ const applyStatus = (sequalize, SEQUALIZE) => {
       autoIncrement: true
     },
     apply_position_id: SEQUALIZE.INTEGER,
+    candidate_id: SEQUALIZE.INTEGER,
     comment:  {
       type: SEQUALIZE.TEXT,
       allowNull: false,

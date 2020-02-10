@@ -87,6 +87,11 @@ const intitialSchema = (sequalize, SEQUALIZE) => {
     foreignKey: 'apply_position_id'
   })
 
+  candidate.hasMany(feedback);
+  feedback.belongsTo(candidate, {
+    foreignKey: 'candidate_id'
+  })
+
 };
 
 export default intitialSchema;
