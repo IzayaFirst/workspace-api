@@ -35,7 +35,7 @@ export const TECH_FIELD = {
   BUSINESS: 'Business Development',
   MARKETING: 'Digital Marketing',
   DESIGN: 'Design',
-  DEVELOPER: 'Sofware Development'
+  DEVELOPER: 'Software Development'
 }
 
 export const DEGREE = {
