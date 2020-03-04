@@ -3,6 +3,7 @@ import http from 'http';
 import BodyParser from 'body-parser';
 import {PORT} from '../helpers/const'
 import CandidateRoute from '../route/candidate';
+import LanguageRoute from '../route/language';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(BodyParser.urlencoded({
 }));
 
 app.use('/candidates', CandidateRoute);
+app.use('/languages', LanguageRoute);
 
 app.use("*", (req, res) => {
      return res.send('Hello world');
