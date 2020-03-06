@@ -8,6 +8,7 @@ import CandidateLanguageRoute from '../route/candidate_languages';
 import EducationRoute from '../route/education';
 import SkillRoute from '../route/skill';
 import WorkExperienceRoute from '../route/work_experience';
+import ArcheivementRoute from '../route/archeivement';
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use('/candidates-languages', CandidateLanguageRoute);
 app.use('/educations', EducationRoute);
 app.use('/skills', SkillRoute);
 app.use('/work-experiences', WorkExperienceRoute);
+app.use('/archeivements', ArcheivementRoute);
+
 
 app.use("*", (req, res) => {
      return res.send('Hello world');

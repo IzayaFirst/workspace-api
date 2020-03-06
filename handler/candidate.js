@@ -2,7 +2,8 @@ import CandidateModel from "../model/candidate";
 import CandidateLanguageModel from "../model/candidate_language";
 import EducationModel from '../model/education';
 import SkillModel from '../model/skill';
-import WorkExperience from '../model/work_experience';
+import WorkExperienceModel from '../model/work_experience';
+import ArcheivementModel from '../model/archeivement';
 
 export default {
   async createCandidate(req, res, next) {
@@ -113,8 +114,23 @@ export default {
       const {
         position, company, description, location, start_date, end_date, candidate_id
       } = req.body;
-      const education = await WorkExperience.createWorkExperience({
+      const education = await WorkExperienceModel.createWorkExperience({
         position, company, description, location, start_date, end_date, candidate_id
+      });
+      res.json({
+        data: education
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  async createArcheivement(req, res, next) {
+    try {
+      const {
+        title, archieve_date, candidate_id,
+      } = req.body;
+      const education = await ArcheivementModel.createArcheivement({
+        title, archieve_date, candidate_id
       });
       res.json({
         data: education
