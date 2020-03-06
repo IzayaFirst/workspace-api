@@ -3,7 +3,6 @@ import CandidateHandler from "../handler/candidate";
 
 const Router = Express.Router();
 
-Router.post("/", CandidateHandler.createCandidate);
-Router.post("/profile", CandidateHandler.updateProfile);
+Router.post("/", CandidateHandler.createCandidateLanguage);
 
 export default Router;

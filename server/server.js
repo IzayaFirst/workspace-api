@@ -4,6 +4,10 @@ import BodyParser from 'body-parser';
 import {PORT} from '../helpers/const'
 import CandidateRoute from '../route/candidate';
 import LanguageRoute from '../route/language';
+import CandidateLanguageRoute from '../route/candidate_languages';
+import EducationRoute from '../route/education';
+import SkillRoute from '../route/skill';
+import WorkExperienceRoute from '../route/work_experience';
 
 const app = express();
 
@@ -18,6 +22,10 @@ app.use(BodyParser.urlencoded({
 
 app.use('/candidates', CandidateRoute);
 app.use('/languages', LanguageRoute);
+app.use('/candidates-languages', CandidateLanguageRoute);
+app.use('/educations', EducationRoute);
+app.use('/skills', SkillRoute);
+app.use('/work-experiences', WorkExperienceRoute);
 
 app.use("*", (req, res) => {
      return res.send('Hello world');
