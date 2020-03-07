@@ -4,6 +4,15 @@ import EducationModel from "../model/education";
 import SkillModel from "../model/skill";
 import WorkExperienceModel from "../model/work_experience";
 import ArcheivementModel from "../model/archeivement";
+import randomInt from "../helpers/random";
+import {
+  generateCandidateAttribute,
+  generateCandidateEducation,
+  generateWorkExperience,
+  generateSkill,
+  generateArcheivement,
+  getLangauge,
+} from "../helpers/generate";
 
 export default {
   async createCandidate(req, res, next) {
@@ -178,7 +187,9 @@ export default {
           data: {
             candidateProfile: candidateProfile[0],
             archeivements: archeivements.length ? archeivements[0] : [],
-            candidateLanguages: candidateLanguages.length ? candidateLanguages[0] : [],
+            candidateLanguages: candidateLanguages.length
+              ? candidateLanguages[0]
+              : [],
             educations: educations.length ? educations[0] : [],
             skills: skills.length ? skills[0] : [],
             workExperiences: workExperiences.length ? workExperiences[0] : []
@@ -189,6 +200,60 @@ export default {
         data: null
       });
     } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  async generateCandidate(req, res, next) {
+    try {
+      const amountOfEducation = randomInt(1, 3);
+      const amountOfSkill = randomInt(2, 4);
+      const amountOfWorkExp = randomInt(2, 3);
+      const amountOfArchiement = randomInt(2, 3);
+      const amountOfLanguage = randomInt(1, 4);
+      const candidate = generateCandidateAttribute();
+      const createCandidate = await CandidateModel.createCandidates(candidate);
+      if (createCandidate.length) {
+        const candidate_id = createCandidate[0].insertId;
+        const promiseOfEducation = [];
+        const promiseOfWork = [];
+        const promiseOfSkill = [];
+        const promiseOfArch = []
+        const promiseOfLanguage = []
+        for (let i = 1; i <= amountOfEducation; i++) {
+          promiseOfEducation.push(EducationModel.createEducation(generateCandidateEducation(candidate_id)));
+        }
+        for (let i = 1; i <= amountOfWorkExp; i++) {
+          promiseOfWork.push(WorkExperienceModel.createWorkExperience(generateWorkExperience(candidate_id)));
+        }
+        for (let i = 1; i <= amountOfSkill; i++) {
+          promiseOfSkill.push(SkillModel.createSkill(generateSkill(candidate_id)));
+        }
+        for (let i = 1; i <= amountOfArchiement; i++) {
+          promiseOfArch.push(ArcheivementModel.createArcheivement(generateArcheivement(candidate_id)));
+        }
+        for (let i = 1; i <= amountOfLanguage; i++) {
+          promiseOfLanguage.push(CandidateLanguageModel.createCandiateLanguage({
+            candidate_id,
+            language_id: getLangauge(i)
+          }));
+        }
+        const education = await Promise.all(promiseOfEducation)
+        const work = await Promise.all(promiseOfWork)
+        const skill = await Promise.all(promiseOfSkill)
+        const arch = await Promise.all(promiseOfArch)
+        const lang = await Promise.all(promiseOfLanguage)
+        return res.json({
+          candidate,
+          education,
+          work,
+          skill,
+          arch,
+          lang
+        });
+      }
+      return res.json(candidate);
+    } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   }

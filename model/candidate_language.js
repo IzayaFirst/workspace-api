@@ -2,6 +2,8 @@ import KnexClient from "../database/connection/knexConnection";
 
 function createCandiateLanguage({ candidate_id, language_id }) {
   const date = new Date();
+  console.log('createCandiateLanguage candidate_id', candidate_id)
+  console.log('createCandiateLanguage language_id', language_id)
   const sql = `insert into candidate_languages(candidate_id, 
     language_id ,created_at, updated_at) 
     values(?, ?, ?, ?)`;
