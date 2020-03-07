@@ -27,6 +27,12 @@ function createWorkExperience({
   ]);
 }
 
+function getWorkExperienceByCandidateId(candidate_id) {
+  const sql = `select * from work_experiences where candidate_id = ?`;
+  return KnexClient.raw(sql, [candidate_id]);
+}
+
 export default {
-  createWorkExperience
+  createWorkExperience,
+  getWorkExperienceByCandidateId
 };

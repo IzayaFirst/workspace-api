@@ -1,9 +1,9 @@
 import CandidateModel from "../model/candidate";
 import CandidateLanguageModel from "../model/candidate_language";
-import EducationModel from '../model/education';
-import SkillModel from '../model/skill';
-import WorkExperienceModel from '../model/work_experience';
-import ArcheivementModel from '../model/archeivement';
+import EducationModel from "../model/education";
+import SkillModel from "../model/skill";
+import WorkExperienceModel from "../model/work_experience";
+import ArcheivementModel from "../model/archeivement";
 
 export default {
   async createCandidate(req, res, next) {
@@ -96,11 +96,11 @@ export default {
   },
   async createSkill(req, res, next) {
     try {
-      const {
-        skill_name, skill_experience, candidate_id
-      } = req.body;
+      const { skill_name, skill_experience, candidate_id } = req.body;
       const education = await SkillModel.createSkill({
-        skill_name, skill_experience, candidate_id
+        skill_name,
+        skill_experience,
+        candidate_id
       });
       res.json({
         data: education
@@ -112,10 +112,22 @@ export default {
   async createWorkExperience(req, res, next) {
     try {
       const {
-        position, company, description, location, start_date, end_date, candidate_id
+        position,
+        company,
+        description,
+        location,
+        start_date,
+        end_date,
+        candidate_id
       } = req.body;
       const education = await WorkExperienceModel.createWorkExperience({
-        position, company, description, location, start_date, end_date, candidate_id
+        position,
+        company,
+        description,
+        location,
+        start_date,
+        end_date,
+        candidate_id
       });
       res.json({
         data: education
@@ -126,11 +138,11 @@ export default {
   },
   async createArcheivement(req, res, next) {
     try {
-      const {
-        title, archieve_date, candidate_id,
-      } = req.body;
+      const { title, archieve_date, candidate_id } = req.body;
       const education = await ArcheivementModel.createArcheivement({
-        title, archieve_date, candidate_id
+        title,
+        archieve_date,
+        candidate_id
       });
       res.json({
         data: education
@@ -139,5 +151,45 @@ export default {
       res.status(500).json(err);
     }
   },
-  async updateProfile(req, res, next) {}
+  async getProfile(req, res, next) {
+    try {
+      const { candidate_id } = req.query;
+      const candidateProfile = await CandidateModel.findCandidateById(
+        candidate_id
+      );
+      if (candidateProfile.length) {
+        const candidatePromise = [
+          ArcheivementModel.findArcheivementFromCandidate(candidate_id),
+          CandidateLanguageModel.getCandidateLanguageByCandidateId(
+            candidate_id
+          ),
+          EducationModel.getEducationByCandidateId(candidate_id),
+          SkillModel.getSkillByCandidateId(candidate_id),
+          WorkExperienceModel.getWorkExperienceByCandidateId(candidate_id)
+        ];
+        const [
+          archeivements,
+          candidateLanguages,
+          educations,
+          skills,
+          workExperiences
+        ] = await Promise.all(candidatePromise);
+        return res.status(200).json({
+          data: {
+            candidateProfile: candidateProfile[0],
+            archeivements: archeivements.length ? archeivements[0] : [],
+            candidateLanguages: candidateLanguages.length ? candidateLanguages[0] : [],
+            educations: educations.length ? educations[0] : [],
+            skills: skills.length ? skills[0] : [],
+            workExperiences: workExperiences.length ? workExperiences[0] : []
+          }
+        });
+      }
+      return res.json({
+        data: null
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 };

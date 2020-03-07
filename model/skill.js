@@ -7,6 +7,12 @@ function createSkill({ skill_name, skill_experience, candidate_id }) {
   return KnexClient.raw(sql, [skill_name, skill_experience, candidate_id, date, date]);
 }
 
+function getSkillByCandidateId(candidate_id) {
+  const sql = `select * from skills where candidate_id = ?`
+  return KnexClient.raw(sql, [candidate_id]);
+}
+
 export default {
-  createSkill
+  createSkill,
+  getSkillByCandidateId
 };

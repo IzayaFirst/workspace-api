@@ -25,6 +25,12 @@ function createEducation({
   ]);
 }
 
+function getEducationByCandidateId(candidate_id) {
+  const sql = `select * from educations where candidate_id = ?`;
+  return KnexClient.raw(sql, [candidate_id]);
+}
+
 export default {
-  createEducation
+  createEducation,
+  getEducationByCandidateId
 };
