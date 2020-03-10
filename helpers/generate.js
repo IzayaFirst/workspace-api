@@ -139,3 +139,26 @@ export const getLangauge = num => {
       return 5;
   }
 };
+
+export const generateCompanyAttribute = () => {
+  return {
+    company_name: Faker.company.companyName(),
+    company_description: Faker.lorem.sentences(),
+    company_logo: Faker.image.avatar(),
+    company_address: `${Faker.address.city()} ${Faker.address.streetName()} 
+      ${Faker.address.streetAddress()} ${Faker.address.zipCode()}`
+  }
+}
+
+export const generatePositionAttribute = (company_id) => {
+  return {
+    title: Faker.name.jobTitle(),
+    description: Faker.lorem.sentences(),
+    level: getSeniority(),
+    degree: generateDegree(),
+    field: getTechnology(),
+    is_open: randomInt(1, 2) === 1,
+    amount: randomInt(1, 10),
+    company_id
+  }
+}
