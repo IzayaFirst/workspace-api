@@ -11,6 +11,7 @@ import SkillRoute from "../route/skill";
 import WorkExperienceRoute from "../route/work_experience";
 import ArcheivementRoute from "../route/archeivement";
 import CompanyRoute from "../route/company";
+import PositionRoute from '../route/position';
 
 const app = express();
 const whitelist = ["http://localhost:8080"];
@@ -44,6 +45,7 @@ app.use("/skills", SkillRoute);
 app.use("/work-experiences", WorkExperienceRoute);
 app.use("/archeivements", ArcheivementRoute);
 app.use("/companies", CompanyRoute);
+app.use("/positions", PositionRoute);
 
 app.use("*", (req, res) => {
   return res.send("Hello world");

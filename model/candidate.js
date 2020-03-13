@@ -53,9 +53,14 @@ function createCandidates({
 function findCandidateById(candidate_id) {
   const sql = `select * from candidates where id = ?`;
   return KnexClient.raw(sql, [candidate_id])
+}
 
+function getCandidate() {
+  const sql = `select id from candidates`;
+  return KnexClient.raw(sql,)
 }
 export default {
   createCandidates,
-  findCandidateById
+  findCandidateById,
+  getCandidate,
 }

@@ -10,6 +10,7 @@ function createCompany({ company_name, company_description, company_logo, compan
     company_description, company_logo, company_address, date, date]);
 }
 
+
 export default {
   createCompany
 };
