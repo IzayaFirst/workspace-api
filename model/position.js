@@ -140,6 +140,78 @@ function getAllJob(level = "%", degree = "%", field = "%") {
   return KnexClient.raw(sql, [level, degree, field]);
 }
 
+function getApplyHistoryForCandidate(candidate_id) {
+  const sql = `select 
+  ap.candidate_id candidate_id,
+  p.title as title,
+  c.company_name as company_name,
+  p.level as job_level, 
+  p.field as job_tech_field,
+  ap.id as apply_position_id,
+  (select ass.status from apply_statuses ass where ass.apply_position_id = ap.id) as status
+  FROM apply_positions ap 
+  join positions p on p.id = ap.position_id
+  join companies c on c.id = p.company_id
+  where ap.candidate_id = ? `;
+  return KnexClient.raw(sql, [candidate_id]);
+}
+
+function addPositionFeedback({
+  apply_position_id,
+  candidate_id,
+  feedback,
+  rating
+}) {
+  const sql = `insert into feedbacks(apply_position_id, candidate_id, comment, rating, created_at, updated_at) 
+  values(?, ?, ?, ?, ?, ?)`;
+  const date = new Date();
+  return KnexClient.raw(sql, [
+    apply_position_id,
+    candidate_id,
+    feedback,
+    rating,
+    date,
+    date
+  ]);
+}
+
+function getPositionFeedback(position_id) {
+  const sql = `select f.comment comment, 
+  f.id id,
+  f.rating rating, 
+  c.id candidate_id,
+  concat(c.candidate_name, ' ', c.candidate_lastname) name,
+  p.title title
+  from feedbacks f 
+  join apply_positions ap 
+  on ap.id = f.apply_position_id
+  join positions p on ap.position_id = p.id
+  join candidates c on c.id = f.candidate_id
+  where p.id = ?
+  `;
+  return KnexClient.raw(sql, [position_id]);
+}
+
+function getSummary(company_id) {
+  const sql = `select p.title title, p.id id, 
+  (select count(ass.id) from apply_statuses ass join apply_positions ap on 
+  ass.apply_position_id = ap.id where ass.status = ? and ap.position_id = p.id) as pending,
+  (select count(ass.id) from apply_statuses ass join apply_positions ap on 
+  ass.apply_position_id = ap.id where ass.status = ? and ap.position_id = p.id) as reject,
+  (select count(ass.id) from apply_statuses ass join apply_positions ap on 
+  ass.apply_position_id = ap.id where ass.status = ? and ap.position_id = p.id) as decline,
+  (select count(ass.id) from apply_statuses ass join apply_positions ap on 
+  ass.apply_position_id = ap.id where ass.status = ? and ap.position_id = p.id) as hire
+ FROM positions p where p.company_id = ?`;
+  return KnexClient.raw(sql, [
+    INTERVIEW_STATUS.PENDING,
+    INTERVIEW_STATUS.REJECT,
+    INTERVIEW_STATUS.DECLINE,
+    INTERVIEW_STATUS.HIRE,
+    company_id
+  ]);
+}
+
 export default {
   createPosition,
   getAllJob,
@@ -147,5 +219,9 @@ export default {
   getCandidateWhoApplyPosition,
   getCheckIsCandidateCanApplyPosition,
   applyPosition,
-  updateApplyStatus
+  updateApplyStatus,
+  getApplyHistoryForCandidate,
+  addPositionFeedback,
+  getPositionFeedback,
+  getSummary
 };

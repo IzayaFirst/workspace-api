@@ -84,7 +84,70 @@ export default {
         data: whoApplyPositon[0]
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
+
+      res.status(500).json(err);
+    }
+  },
+  async getPositionWhoApply(req, res, next) {
+    try {
+      const { candidate_id } = req.query;
+      const applyHist = await PositionModel.getApplyHistoryForCandidate(
+        candidate_id
+      );
+      res.json({
+        data: applyHist[0]
+      });
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).json(err);
+    }
+  },
+  async feedback(req, res, next) {
+    try {
+      const { apply_position_id, candidate_id, feedback, rating } = req.query;
+      console.log(apply_position_id, candidate_id, feedback, rating)
+      const fb = await PositionModel.addPositionFeedback({
+        apply_position_id,
+        candidate_id,
+        feedback,
+        rating
+      });
+      res.json({
+        data: fb[0]
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+  async getFeedback(req, res, next) {
+    try {
+      const { position_id } = req.query;
+      const fb = await PositionModel.getPositionFeedback(
+        position_id
+      );
+      res.json({
+        data: fb[0]
+      });
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).json(err);
+    }
+  },
+  async getSummary(req, res, next) {
+    try {
+      const { company_id } = req.query;
+      const summary = await PositionModel.getSummary(
+        company_id
+      );
+      res.json({
+        data: summary[0]
+      });
+    } catch (err) {
+      console.log(err);
 
       res.status(500).json(err);
     }

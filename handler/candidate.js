@@ -183,6 +183,7 @@ export default {
           skills,
           workExperiences
         ] = await Promise.all(candidatePromise);
+        console.log('archeivements', archeivements)
         return res.status(200).json({
           data: {
             candidateProfile: candidateProfile[0],
