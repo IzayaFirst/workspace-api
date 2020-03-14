@@ -8,5 +8,6 @@ Router.get("/", PositionHandler.getAllJob)
 Router.get("/findById", PositionHandler.getJobPositionById)
 Router.get("/apply", PositionHandler.applyPosition)
 
+Router.get("/whoApply", PositionHandler.getWhoApplyPosition)
 
 export default Router;

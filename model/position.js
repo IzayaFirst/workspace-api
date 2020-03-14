@@ -1,4 +1,5 @@
 import KnexClient from "../database/connection/knexConnection";
+import { INTERVIEW_STATUS } from "../database/helper/constant";
 
 function createPosition({
   title,
@@ -46,45 +47,57 @@ function createPosition({
   ]);
 }
 
-
-
-function getCheckIsCandidateApplyPosition(candidate_id, position_id) {
-  const sql = `select count(candidate_id) amount
+function getCheckIsCandidateCanApplyPosition({ candidate_id, position_id }) {
+  const sql = `select count(candidate_id) as amount
     from apply_positions where 
     position_id = ? 
     and candidate_id = ?
-    group by position_id`
-    return KnexClient.raw(sql, [position_id, candidate_id]);
+    group by position_id`;
+  return KnexClient.raw(sql, [position_id, candidate_id]);
 }
-
 
 function getCandidateWhoApplyPosition(position_id) {
   const sql = `select 
-  c.id candidate_id
-  c.candidate_name candidate_name,
-  c.candidate_lastname candidate_lastname,
+  c.id candidate_id,
+  concat(c.candidate_name, ' ', c.candidate_lastname) candidate_name,
   c.telephone telephone,
   c.email email,
   c.seniority seniority,
   c.technology_field technology_field,
   c.expected_salary expected_salary,
-  p.title as title,
-  p.description as description,
   p.level as job_level, 
-  p.degree as job_education, 
   p.field as job_tech_field,
+  ap.id as apply_position_id,
+  (select ass.status from apply_statuses ass where ass.apply_position_id = ap.id) as status
   FROM apply_positions ap 
   join candidates c on c.id = ap.candidate_id
   join positions p on p.id = ap.position_id
-  where p.id = ?`
+  where p.id = ?`;
   return KnexClient.raw(sql, [position_id]);
 }
 
-function applyPosition({ 
-  candidate_id,
-  position_id
-}) {
-  const sql = `insert into `
+function applyPosition({ candidate_id, position_id }) {
+  const date = new Date();
+  const sql = `insert into apply_positions(candidate_id, position_id, created_at, updated_at) values(?, ?, ?, ?)`;
+  return KnexClient.raw(sql, [candidate_id, position_id, date, date])
+    .then(result => {
+      const { insertId } = result[0];
+      const insertDate = new Date();
+      const sqlInsert = `insert into apply_statuses(apply_position_id, status, created_at, updated_at) 
+      values (?, ?, ?, ?)`;
+      return KnexClient.raw(sqlInsert, [
+        insertId,
+        INTERVIEW_STATUS.PENDING,
+        insertDate,
+        insertDate
+      ]);
+    })
+    .catch(err => err);
+}
+
+function updateApplyStatus({ status, apply_status_id }) {
+  const sql = `update apply_statuses set status = ? where id = ?`;
+  return KnexClient.raw(sql, [status, apply_status_id]);
 }
 
 function getJobPositionById(id) {
@@ -104,7 +117,6 @@ function getJobPositionById(id) {
   join companies c on c.id = p.company_id
   where p.id = ?`;
   return KnexClient.raw(sql, [id]);
-
 }
 
 function getAllJob(level = "%", degree = "%", field = "%") {
@@ -133,5 +145,7 @@ export default {
   getAllJob,
   getJobPositionById,
   getCandidateWhoApplyPosition,
-  getCheckIsCandidateApplyPosition,
+  getCheckIsCandidateCanApplyPosition,
+  applyPosition,
+  updateApplyStatus
 };
