@@ -1,22 +1,22 @@
 export const DATABASE_PORT = 3306;
 export const DATABASE_HOST = 'localhost';
-export const DATABASE_SCHEMA = 'workspace';
+export const DATABASE_SCHEMA = 'workspaces';
 export const DATABASE_USERNAME = 'root';
 export const DATABASE_PASSWORD = '';
 
-export const CANDIDATE_SCHEMA = 'candidates';
-export const SKILL_SCHEMA = 'skills';
-export const EDUCATION_SCHEMA = 'educations';
-export const WORK_EXPERIENCE_SCHEMA = 'work_experiences';
-export const LANGUAGE_SCHEMA = 'languages';
-export const CANDIDATE_LANGUAGE_SCHEMA = 'candidate_languages';
-export const ARCHIEVEMENT_SCHEMA = 'archievements';
-export const COMPANY_SCHEMA = 'companies';
-export const COMPANY_ACCOUNT_SCHEMA = 'company_accounts';
-export const POSITION_SCHEMA = 'positions';
-export const APPLY_POSITION = 'apply_positions';
-export const APPLY_STATUS = 'apply_statuses';
-export const FEEDBACK = 'feedbacks';
+export const CANDIDATE_SCHEMA = 'candidate';
+export const SKILL_SCHEMA = 'skill';
+export const EDUCATION_SCHEMA = 'education';
+export const WORK_EXPERIENCE_SCHEMA = 'work_experience';
+export const LANGUAGE_SCHEMA = 'language';
+export const CANDIDATE_LANGUAGE_SCHEMA = 'candidate_language';
+export const ARCHIEVEMENT_SCHEMA = 'archievement';
+export const COMPANY_SCHEMA = 'company';
+export const COMPANY_ACCOUNT_SCHEMA = 'company_account';
+export const POSITION_SCHEMA = 'position';
+export const APPLY_POSITION = 'apply_position';
+export const APPLY_STATUS = 'apply_status';
+export const FEEDBACK = 'feedback';
 
 export const GENDER = {
   MALE: 'Male',
