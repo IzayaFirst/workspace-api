@@ -25,5 +25,5 @@ sequelize.sync({ force: true })
   console.log(`Migration is done.`)
   process.exit(0);
 }).catch((err) => {
-  console.loog(`error : ${err}`)
+  console.log(`error : ${err}`)
 })

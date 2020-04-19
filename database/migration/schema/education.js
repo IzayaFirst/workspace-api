@@ -2,7 +2,7 @@ import {EDUCATION_SCHEMA, DEGREE} from '../../helper/constant';
 
 const education = (sequalize, SEQUALIZE) => {
   return sequalize.define(EDUCATION_SCHEMA, {
-    id: {
+    education_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -20,14 +20,14 @@ const education = (sequalize, SEQUALIZE) => {
       allowNull: false,
     },
     degree: {
-      type: SEQUALIZE.ENUM(DEGREE.BACHELOR, DEGREE.DOCTOR, DEGREE.MASTER, DEGREE.OTHER),
+      type: SEQUALIZE.STRING(200),
       allowNull: false,
     },
     gpa: {
       type: SEQUALIZE.DOUBLE,
     },
     candidate_id: SEQUALIZE.INTEGER
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default education;

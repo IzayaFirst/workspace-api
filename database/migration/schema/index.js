@@ -25,72 +25,93 @@ const intitialSchema = (sequalize, SEQUALIZE) => {
   const position = Position(sequalize, SEQUALIZE);
   const applyPosition = ApplyPosition(sequalize, SEQUALIZE);
   const applyStatus = ApplyStatus(sequalize, SEQUALIZE);
-  const feedback = FeedBack(sequalize, SEQUALIZE);
+  // const feedback = FeedBack(sequalize, SEQUALIZE);
 
-  candidate.hasMany(skill)
+  candidate.hasMany(skill, {
+    foreignKey: 'candidate_id'
+  })
   skill.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  candidate.hasMany(education)
+  candidate.hasMany(education,  {
+    foreignKey: 'candidate_id'
+  })
   education.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  candidate.hasMany(workExperience)
+  candidate.hasMany(workExperience,  {
+    foreignKey: 'candidate_id'
+  })
   workExperience.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  candidate.hasMany(candidateLanguage)
+  candidate.hasMany(candidateLanguage,  {
+    foreignKey: 'candidate_id'
+  })
   candidateLanguage.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  language.hasMany(candidateLanguage)
+  language.hasMany(candidateLanguage, {
+    foreignKey: 'language_id'
+  })
   candidateLanguage.belongsTo(language, {
     foreignKey: 'language_id'
   })
 
-  candidate.hasMany(archievement)
+  candidate.hasMany(archievement,  {
+    foreignKey: 'candidate_id'
+  })
   archievement.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  company.hasMany(companyAccount)
-  companyAccount.belongsTo(company, {
+  // company.hasMany(companyAccount, {
+  //   foreignKey: 'company_id'
+  // })
+  // companyAccount.belongsTo(company, {
+  //   foreignKey: 'company_id'
+  // })
+
+  company.hasMany(position, {
     foreignKey: 'company_id'
   })
-
-  company.hasMany(position)
   position.belongsTo(company, {
     foreignKey: 'company_id'
   })
 
-  candidate.hasMany(applyPosition);
+  candidate.hasMany(applyPosition, {
+    foreignKey: 'candidate_id'
+  });
   applyPosition.belongsTo(candidate, {
     foreignKey: 'candidate_id'
   })
 
-  position.hasMany(applyPosition);
+  position.hasMany(applyPosition,  {
+    foreignKey: 'position_id'
+  });
   applyPosition.belongsTo(position, {
     foreignKey: 'position_id'
   })
 
-  applyPosition.hasMany(applyStatus);
+  applyPosition.hasMany(applyStatus, {
+    foreignKey: 'apply_position_id'
+  });
   applyStatus.belongsTo(applyPosition, {
     foreignKey: 'apply_position_id'
   })
 
-  applyPosition.hasMany(feedback);
-  feedback.belongsTo(applyPosition, {
-    foreignKey: 'apply_position_id'
-  })
+  // applyPosition.hasMany(feedback,  {
+  //   foreignKey: 'apply_position_id'
+  // });
+  // feedback.belongsTo(applyPosition, {
+  //   foreignKey: 'apply_position_id'
+  // })
 
-  candidate.hasMany(feedback);
-  feedback.belongsTo(candidate, {
-    foreignKey: 'candidate_id'
-  })
+   
 
 };
 

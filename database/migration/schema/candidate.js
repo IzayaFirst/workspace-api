@@ -2,7 +2,7 @@ import {CANDIDATE_SCHEMA, GENDER, SENIORITY, TECH_FIELD} from '../../helper/cons
 
 const candidate = (sequalize, SEQUALIZE) => {
   return sequalize.define(CANDIDATE_SCHEMA, {
-    id: {
+    candidate_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -27,7 +27,7 @@ const candidate = (sequalize, SEQUALIZE) => {
       type: SEQUALIZE.DATE,
       allowNull: false,
     },
-    gender: SEQUALIZE.ENUM(GENDER.MALE, GENDER.FEMALE),
+    gender: SEQUALIZE.STRING(200),
     telephone: SEQUALIZE.STRING(20),
     email: SEQUALIZE.STRING(100),
     able_to_work_aboard: {
@@ -41,18 +41,15 @@ const candidate = (sequalize, SEQUALIZE) => {
     current_salary: SEQUALIZE.DECIMAL(10, 2),
     expected_salary: SEQUALIZE.DECIMAL(10, 2),
     seniority: {
-      type: SEQUALIZE.ENUM(SENIORITY.JUNIOR, SENIORITY.MIDDLE,
-        SENIORITY.SENIOR, SENIORITY.LEAD, SENIORITY.MANAGER),
+      type: SEQUALIZE.STRING(200),
       allowNull: false,
 
     },
     technology_field: {
-      type: SEQUALIZE.ENUM(TECH_FIELD.BUSINESS, TECH_FIELD.DESIGN,
-        TECH_FIELD.MARKETING, TECH_FIELD.DEVELOPER),
+      type: SEQUALIZE.STRING(200),
       allowNull: false,
-
     }
-  }, { underscored: true })
+  }, { underscored: true, freezeTableName: true, })
 }
 
 export default candidate;

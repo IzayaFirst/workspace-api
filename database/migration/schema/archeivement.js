@@ -2,7 +2,7 @@ import { ARCHIEVEMENT_SCHEMA } from '../../helper/constant';
 
 const archeivement = (sequalize, SEQUALIZE) => {
   return sequalize.define(ARCHIEVEMENT_SCHEMA, {
-    id: {
+    archeivement_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -16,7 +16,7 @@ const archeivement = (sequalize, SEQUALIZE) => {
       allowNull: false,
     },
     candidate_id: SEQUALIZE.INTEGER
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default archeivement;

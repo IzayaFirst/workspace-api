@@ -2,7 +2,7 @@ import { FEEDBACK } from '../../helper/constant';
 
 const applyStatus = (sequalize, SEQUALIZE) => {
   return sequalize.define(FEEDBACK, {
-    id: {
+    feedback_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -18,7 +18,7 @@ const applyStatus = (sequalize, SEQUALIZE) => {
       allowNull: false,
       validate: { min: 1, max: 5 }
     }
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default applyStatus;

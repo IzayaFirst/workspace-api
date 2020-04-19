@@ -2,7 +2,7 @@ import { COMPANY_SCHEMA } from '../../helper/constant';
 
 const company = (sequalize, SEQUALIZE) => {
   return sequalize.define(COMPANY_SCHEMA, {
-    id: {
+    company_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -22,7 +22,7 @@ const company = (sequalize, SEQUALIZE) => {
       type: SEQUALIZE.STRING(200),
       allowNull: false,
     },
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default company;

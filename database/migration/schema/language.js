@@ -2,17 +2,16 @@ import {LANGUAGE_SCHEMA, LANGUAGE} from '../../helper/constant';
 
 const language = (sequalize, SEQUALIZE) => {
   return sequalize.define(LANGUAGE_SCHEMA, {
-    id: {
+    language_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
     language: {
-      type: SEQUALIZE.ENUM(LANGUAGE.THAI, LANGUAGE.ENGLISH, 
-        LANGUAGE.CHINESE, LANGUAGE.JAPANESE, LANGUAGE.OTHER),
+      type: SEQUALIZE.STRING(200),
       allowNull: false,
     },
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default language;

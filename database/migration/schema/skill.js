@@ -2,7 +2,7 @@ import {SKILL_SCHEMA} from '../../helper/constant';
 
 const skill = (sequalize, SEQUALIZE) => {
   return sequalize.define(SKILL_SCHEMA, {
-    id: {
+    skill_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -17,7 +17,7 @@ const skill = (sequalize, SEQUALIZE) => {
       defaultValue: 1
     },
     candidate_id: SEQUALIZE.INTEGER
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default skill;

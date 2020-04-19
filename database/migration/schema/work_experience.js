@@ -2,7 +2,7 @@ import { WORK_EXPERIENCE_SCHEMA } from '../../helper/constant';
 
 const workExperience = (sequalize, SEQUALIZE) => {
   return sequalize.define(WORK_EXPERIENCE_SCHEMA, {
-    id: {
+    work_experience_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -27,7 +27,7 @@ const workExperience = (sequalize, SEQUALIZE) => {
       allowNull: false,
     },
     candidate_id: SEQUALIZE.INTEGER
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default workExperience;

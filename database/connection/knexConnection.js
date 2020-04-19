@@ -15,3 +15,4 @@ export default Knex({
     database : DATABASE_SCHEMA
   }
 })
+

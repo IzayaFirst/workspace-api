@@ -2,7 +2,7 @@ import { COMPANY_ACCOUNT_SCHEMA } from '../../helper/constant';
 
 const company_account = (sequalize, SEQUALIZE) => {
   return sequalize.define(COMPANY_ACCOUNT_SCHEMA, {
-    id: {
+    company_account_id: {
       type: SEQUALIZE.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -24,7 +24,7 @@ const company_account = (sequalize, SEQUALIZE) => {
       allowNull: false,
     },
     company_id: SEQUALIZE.INTEGER
-  },  { underscored: true });
+  },  { underscored: true, freezeTableName: true, });
 }
 
 export default company_account;
