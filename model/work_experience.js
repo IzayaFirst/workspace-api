@@ -10,7 +10,7 @@ function createWorkExperience({
   candidate_id
 }) {
   const date = new Date();
-  const sql = `insert into work_experiences(position, company, 
+  const sql = `insert into work_experience(position, company, 
     description, location, start_date, end_date, candidate_id
     ,created_at, updated_at) 
     values(?, ?, ?, ?, ?, ?, ? ,?, ?)`;
@@ -28,7 +28,7 @@ function createWorkExperience({
 }
 
 function getWorkExperienceByCandidateId(candidate_id) {
-  const sql = `select * from work_experiences where candidate_id = ?`;
+  const sql = `select * from work_experience where candidate_id = ?`;
   return KnexClient.raw(sql, [candidate_id]);
 }
 

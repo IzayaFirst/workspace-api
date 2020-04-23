@@ -12,7 +12,7 @@ function createPosition({
   company_id
 }) {
   const date = new Date();
-  const sql = `insert into positions(
+  const sql = `insert into workspaces.position(
     title,
     description,
     level,
@@ -49,7 +49,7 @@ function createPosition({
 
 function getCheckIsCandidateCanApplyPosition({ candidate_id, position_id }) {
   const sql = `select count(candidate_id) as amount
-    from apply_positions where 
+    from apply_position where 
     position_id = ? 
     and candidate_id = ?
     group by position_id`;
@@ -68,11 +68,11 @@ function getCandidateWhoApplyPosition(position_id) {
   p.level as job_level, 
   p.field as job_tech_field,
   ap.apply_position_id as apply_position_id,
-  (select ass.status from apply_statuses ass where ass.apply_position_id = ap.apply_position_id) as status
+  (select ass.status from apply_status ass where ass.apply_position_id = ap.apply_position_id) as status
   FROM apply_position ap 
   join candidate c on c.candidate_id = ap.candidate_id
-  join position p on p.position_id = ap.position_id
-  where p.position = ?`;
+  join workspaces.position p on p.position_id = ap.position_id
+  where p.position_id = ?`;
   return KnexClient.raw(sql, [position_id]);
 }
 
@@ -85,7 +85,7 @@ function applyPosition({ candidate_id, position_id }) {
     .then(result => {
       const { insertId } = result[0];
       const insertDate = new Date();
-      const sqlInsert = `insert into apply_statuses
+      const sqlInsert = `insert into apply_status
       (apply_position_id, 
         status, created_at, updated_at) 
       values (?, ?, ?, ?)`;
@@ -118,9 +118,9 @@ function getJobPositionById(id) {
   c.company_address as company_address,
   p.position_id as position_id,
   c.company_id as company_id
-  FROM position p 
+  FROM workspaces.position p 
   join company c on c.company_id = p.company_id
-  where p.id = ?`;
+  where p.position_id = ?`;
   return KnexClient.raw(sql, [id]);
 }
 
@@ -136,7 +136,7 @@ degree = "%", field = "%") {
   p.position_id as position_id, 
   c.company_id as company_id,
   c.created_at as created_at
-  FROM position p 
+  FROM workspaces.position p 
   join company c 
   on 
   c.company_id = p.company_id
@@ -154,12 +154,12 @@ function getApplyHistoryForCandidate(candidate_id) {
   c.company_name as company_name,
   p.level as job_level, 
   p.field as job_tech_field,
-  ap.id as apply_position_id,
-  (select ass.status from apply_statuses ass 
-  where ass.apply_position_id = ap.id) as status
-  FROM apply_positions ap 
-  join positions p on p.id = ap.position_id
-  join companies c on c.id = p.company_id
+  ap.apply_position_id as apply_position_id,
+  (select ass.status from apply_status ass 
+  where ass.apply_position_id = ap.apply_position_id) as status
+  FROM apply_position ap 
+  join workspaces.position p on p.position_id = ap.position_id
+  join company c on c.company_id = p.company_id
   where ap.candidate_id = ? `;
   return KnexClient.raw(sql, [candidate_id]);
 }
@@ -168,7 +168,7 @@ function addPositionFeedback({
   apply_position_id,candidate_id,
   feedback,rating
 }) {
-  const sql = `insert into feedbacks(apply_position_id, 
+  const sql = `insert into feedback(apply_position_id, 
     candidate_id, comment, rating, created_at, updated_at) 
   values(?, ?, ?, ?, ?, ?)`;
   const date = new Date();
@@ -186,11 +186,11 @@ function getPositionFeedback(position_id) {
   concat(c.candidate_name, ' ', 
   c.candidate_lastname) name,
   p.title title
-  from feedbacks f 
-  join apply_positions ap 
+  from feedback f 
+  join apply_position ap 
   on ap.id = f.apply_position_id
-  join positions p on ap.position_id = p.id
-  join candidates c on c.id = f.candidate_id
+  join workspaces.position p on ap.position_id = p.position_id
+  join candidate c on c.candidate_id = f.candidate_id
   where p.id = ?
   `;
   return KnexClient.raw(sql, [position_id]);

@@ -9,7 +9,7 @@ function createEducation({
   candidate_id
 }) {
   const date = new Date();
-  const sql = `insert into educations(university, major, graduate_date, degree, gpa, candidate_id 
+  const sql = `insert into education(university, major, graduate_date, degree, gpa, candidate_id 
     ,created_at, updated_at) 
     values(?, ?, ?, ?, ?, ? 
       ,?, ?)`;
@@ -26,7 +26,7 @@ function createEducation({
 }
 
 function getEducationByCandidateId(candidate_id) {
-  const sql = `select * from educations where candidate_id = ?`;
+  const sql = `select * from education where candidate_id = ?`;
   return KnexClient.raw(sql, [candidate_id]);
 }
 

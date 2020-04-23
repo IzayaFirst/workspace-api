@@ -39,23 +39,26 @@ function findCandidateById(candidate_id) {
   join language l 
   on cl.language_id = l.language_id 
   where cl.candidate_id = ?`
-  const sql3 = `select * from educations where candidate_id = ?`;
-  const sql4 = `select * from archievements where candidate_id = ?`;
-  const sql5 = `select * from skills where candidate_id = ?`
-  const sql6 = `select * from work_experiences where candidate_id = ?`;
-
-  return Promise.all(
-    KnexClient.raw(sql, [candidate_id]),
-    KnexClient.raw(sql2, [candidate_id]),
-    KnexClient.raw(sql3, [candidate_id]),
-    KnexClient.raw(sql4, [candidate_id]),
-    KnexClient.raw(sql5, [candidate_id]),
-    KnexClient.raw(sql6, [candidate_id]),
-  )
+  const sql3 = `select * from 
+    education where candidate_id = ?`;
+  const sql4 = `select * from 
+    archievement where candidate_id = ?`;
+  const sql5 = `select * from 
+    skill where candidate_id = ?`
+  const sql6 = `select * from 
+    work_experience where candidate_id = ?`;
+  return Promise.all([
+      KnexClient.raw(sql, [candidate_id]),
+      KnexClient.raw(sql2, [candidate_id]),
+      KnexClient.raw(sql3, [candidate_id]),
+      KnexClient.raw(sql4, [candidate_id]),
+      KnexClient.raw(sql5, [candidate_id]),
+      KnexClient.raw(sql6, [candidate_id]),
+    ])
 }
 
 function getCandidate() {
-  const sql = `select id from candidates`;
+  const sql = `select candidate_id from candidate`;
   return KnexClient.raw(sql,)
 }
 export default {

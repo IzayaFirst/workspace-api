@@ -166,41 +166,52 @@ export default {
       const candidateProfile = await CandidateModel.findCandidateById(
         candidate_id
       );
-      if (candidateProfile.length) {
-        const candidatePromise = [
-          ArcheivementModel.findArcheivementFromCandidate(candidate_id),
-          CandidateLanguageModel.getCandidateLanguageByCandidateId(
-            candidate_id
-          ),
-          EducationModel.getEducationByCandidateId(candidate_id),
-          SkillModel.getSkillByCandidateId(candidate_id),
-          WorkExperienceModel.getWorkExperienceByCandidateId(candidate_id)
-        ];
-        const [
-          archeivements,
-          candidateLanguages,
-          educations,
-          skills,
-          workExperiences
-        ] = await Promise.all(candidatePromise);
-        console.log('archeivements', archeivements)
-        return res.status(200).json({
-          data: {
-            candidateProfile: candidateProfile[0],
-            archeivements: archeivements.length ? archeivements[0] : [],
-            candidateLanguages: candidateLanguages.length
-              ? candidateLanguages[0]
-              : [],
-            educations: educations.length ? educations[0] : [],
-            skills: skills.length ? skills[0] : [],
-            workExperiences: workExperiences.length ? workExperiences[0] : []
-          }
-        });
-      }
+      // if (candidateProfile.length) {
+      //   const candidatePromise = [
+      //     ArcheivementModel.findArcheivementFromCandidate(candidate_id),
+      //     CandidateLanguageModel.getCandidateLanguageByCandidateId(
+      //       candidate_id
+      //     ),
+      //     EducationModel.getEducationByCandidateId(candidate_id),
+      //     SkillModel.getSkillByCandidateId(candidate_id),
+      //     WorkExperienceModel.getWorkExperienceByCandidateId(candidate_id)
+      //   ];
+      //   const [
+      //     archeivements,
+      //     candidateLanguages,
+      //     educations,
+      //     skills,
+      //     workExperiences
+      //   ] = await Promise.all(candidatePromise);
+      //   console.log('archeivements', archeivements)
+      //   return res.status(200).json({
+      //     data: {
+      //       candidateProfile: candidateProfile[0],
+      //       archeivements: archeivements.length ? archeivements[0] : [],
+      //       candidateLanguages: candidateLanguages.length
+      //         ? candidateLanguages[0]
+      //         : [],
+      //       educations: educations.length ? educations[0] : [],
+      //       skills: skills.length ? skills[0] : [],
+      //       workExperiences: workExperiences.length ? workExperiences[0] : []
+      //     }
+      //   });
+      // }
+      return res.status(200).json({
+            data: {
+              candidateProfile: candidateProfile[0][0],
+              candidateLanguages: candidateProfile[1][0] || [],
+              educations: candidateProfile[2][0] || [],
+              archeivements: candidateProfile[3][0] || [],
+              skills: candidateProfile[4][0] || [],
+              workExperiences: candidateProfile[5][0] || []
+            }
+          });
       return res.json({
-        data: null
+        data: candidateProfile
       });
     } catch (err) {
+      console.log('err', err)
       res.status(500).json(err);
     }
   },
